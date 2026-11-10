@@ -2,7 +2,7 @@
 
 class Database
 {
-    private static $pdo = null;
+    private static ?PDO $pdo = null;
 
     public static function get()
     {
@@ -20,14 +20,14 @@ class Database
         return self::$pdo;
     }
 
-    public static function fetchAll($sql, $params = [])
+    public static function fetchAll(string $sql, $params = [])
     {
         $stmt = self::get()->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll();
     }
 
-    public static function fetchOne($sql, $params = [])
+    public static function fetchOne(string $sql, $params = [])
     {
         $stmt = self::get()->prepare($sql);
         $stmt->execute($params);
@@ -35,14 +35,14 @@ class Database
         return $row === false ? null : $row;
     }
 
-    public static function execute($sql, $params = [])
+    public static function execute(string $sql, $params = [])
     {
         $stmt = self::get()->prepare($sql);
         $stmt->execute($params);
         return $stmt->rowCount();
     }
 
-    public static function insert($sql, $params = [])
+    public static function insert(string $sql, $params = [])
     {
         $stmt = self::get()->prepare($sql);
         $stmt->execute($params);
