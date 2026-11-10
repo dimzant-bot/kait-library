@@ -9,7 +9,7 @@ class LoanService
      * Выдать экземпляр книги читателю.
      * Возвращает ['ok' => bool, 'message' => string, 'due_at' => date, 'warnings' => []]
      */
-    public static function issue($readerEmail, $inventoryNumber, $librarianId)
+    public static function issue(string $readerEmail, string $inventoryNumber, int $librarianId)
     {
         $warnings = [];
 
@@ -122,7 +122,7 @@ class LoanService
     /**
      * Принять книгу обратно, начислить штраф за просрочку.
      */
-    public static function returnBook($loanId)
+    public static function returnBook(int $loanId)
     {
         $loan = Database::fetchOne(
             'SELECT l.*, u.category FROM loans l JOIN users u ON u.id = l.user_id WHERE l.id = ?',
@@ -156,7 +156,7 @@ class LoanService
         return ['ok' => true, 'message' => $msg, 'fine' => $fine];
     }
 
-    public static function reserve($bookId, $userId)
+    public static function reserve(int $bookId, int $userId)
     {
         $exists = Database::fetchOne(
             "SELECT id FROM reservations WHERE book_id = ? AND user_id = ? AND status = 'active'",
@@ -185,7 +185,7 @@ class LoanService
         );
     }
 
-    public static function userLoans($userId)
+    public static function userLoans(int $userId)
     {
         return Database::fetchAll(
             'SELECT l.*, b.title, b.author, c.inventory_number
