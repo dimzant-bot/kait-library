@@ -1,18 +1,18 @@
 <?php
 
-function e($value)
+function e(mixed $value)
 {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 }
 
-function redirect($page, $params = [])
+function redirect(string $page, $params = [])
 {
     $query = http_build_query(array_merge(['page' => $page], $params));
     header('Location: index.php?' . $query);
     exit;
 }
 
-function json_response($data, $code = 200)
+function json_response(array $data, int $code = 200)
 {
     http_response_code($code);
     header('Content-Type: application/json; charset=utf-8');
@@ -20,12 +20,12 @@ function json_response($data, $code = 200)
     exit;
 }
 
-function json_error($message, $code = 400)
+function json_error(string $message, int $code = 400)
 {
     json_response(['ok' => false, 'error' => $message], $code);
 }
 
-function render($template, $vars = [])
+function render(string $template, array $vars = [])
 {
     extract($vars);
     $user = Auth::user();
@@ -46,7 +46,7 @@ function flash($message = null)
     return $msg;
 }
 
-function format_date($date)
+function format_date(mixed $date)
 {
     if (!$date) {
         return '—';
@@ -54,7 +54,7 @@ function format_date($date)
     return date('d.m.Y', strtotime($date));
 }
 
-function plural($n, $one, $few, $many)
+function plural(int $n, string $one, string $few, string $many)
 {
     $n = abs($n) % 100;
     $n1 = $n % 10;
@@ -64,7 +64,7 @@ function plural($n, $one, $few, $many)
     return $many;
 }
 
-function input($key, $default = null)
+function input(string $key, $default = null)
 {
     if (isset($_POST[$key])) {
         return trim($_POST[$key]);
@@ -83,7 +83,7 @@ function request_json()
 }
 
 // Старый вариант форматирования даты, оставлен для совместимости
-function old_format_date($date)
+function old_format_date(mixed $date)
 {
     $parts = explode('-', substr($date, 0, 10));
     if (count($parts) != 3) {
