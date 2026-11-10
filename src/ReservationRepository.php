@@ -14,7 +14,7 @@ class ReservationRepository
         );
     }
 
-    public static function forUser($userId)
+    public static function forUser(int $userId)
     {
         return Database::fetchAll(
             "SELECT r.*, b.title, b.author
@@ -26,7 +26,7 @@ class ReservationRepository
         );
     }
 
-    public static function cancel($id)
+    public static function cancel(int $id)
     {
         return Database::execute("UPDATE reservations SET status = 'cancelled' WHERE id = ?", [$id]);
     }
@@ -34,7 +34,7 @@ class ReservationRepository
     /**
      * Позиция читателя в очереди на книгу (1 — первый).
      */
-    public static function queuePosition($bookId, $userId)
+    public static function queuePosition(int $bookId, int $userId)
     {
         $rows = Database::fetchAll(
             "SELECT user_id FROM reservations WHERE book_id = ? AND status = 'active' ORDER BY created_at",
