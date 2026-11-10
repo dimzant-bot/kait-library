@@ -2,7 +2,7 @@
 
 class ReviewRepository
 {
-    public static function forBook($bookId)
+    public static function forBook(int $bookId)
     {
         return Database::fetchAll(
             'SELECT r.*, u.full_name FROM reviews r JOIN users u ON u.id = r.user_id
@@ -11,7 +11,7 @@ class ReviewRepository
         );
     }
 
-    public static function add($bookId, $userId, $rating, $text)
+    public static function add(int $bookId, int $userId, int $rating, string $text)
     {
         return Database::insert(
             'INSERT INTO reviews (book_id, user_id, rating, text, created_at) VALUES (?, ?, ?, ?, ?)',
@@ -19,7 +19,7 @@ class ReviewRepository
         );
     }
 
-    public static function delete($id)
+    public static function delete(int $id)
     {
         return Database::execute('DELETE FROM reviews WHERE id = ?', [$id]);
     }
