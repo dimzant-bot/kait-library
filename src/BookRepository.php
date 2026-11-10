@@ -27,7 +27,7 @@ class BookRepository
         return $books;
     }
 
-    public static function find($id)
+    public static function find(int $id)
     {
         $book = Database::fetchOne(
             'SELECT b.*, g.name AS genre FROM books b LEFT JOIN genres g ON g.id = b.genre_id WHERE b.id = ?',
@@ -44,7 +44,7 @@ class BookRepository
         return $book;
     }
 
-    public static function availableCount($bookId)
+    public static function availableCount(int $bookId)
     {
         $row = Database::fetchOne(
             "SELECT COUNT(*) AS cnt FROM copies WHERE book_id = ? AND status = 'available'",
@@ -58,7 +58,7 @@ class BookRepository
         return Database::fetchAll('SELECT * FROM genres ORDER BY name');
     }
 
-    public static function create($data)
+    public static function create(array $data)
     {
         return Database::insert(
             'INSERT INTO books (title, author, genre_id, year, isbn, description, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
@@ -74,7 +74,7 @@ class BookRepository
         );
     }
 
-    public static function addCopy($bookId, $inventoryNumber)
+    public static function addCopy(int $bookId, string $inventoryNumber)
     {
         return Database::insert(
             "INSERT INTO copies (book_id, inventory_number, status) VALUES (?, ?, 'available')",
@@ -82,7 +82,7 @@ class BookRepository
         );
     }
 
-    public static function setCover($bookId, $fileName)
+    public static function setCover(int $bookId, string $fileName)
     {
         return Database::execute('UPDATE books SET cover = ? WHERE id = ?', [$fileName, $bookId]);
     }
