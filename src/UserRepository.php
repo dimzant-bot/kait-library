@@ -7,22 +7,22 @@ class UserRepository
         return Database::fetchAll('SELECT id, full_name, email, role, category, group_name, is_blocked, created_at FROM users ORDER BY full_name');
     }
 
-    public static function find($id)
+    public static function find(int $id)
     {
         return Database::fetchOne('SELECT * FROM users WHERE id = ?', [$id]);
     }
 
-    public static function findByEmail($email)
+    public static function findByEmail(string $email)
     {
         return Database::fetchOne('SELECT * FROM users WHERE email = ?', [$email]);
     }
 
-    public static function setRole($id, $role)
+    public static function setRole(int $id, string $role)
     {
         return Database::execute('UPDATE users SET role = ? WHERE id = ?', [$role, $id]);
     }
 
-    public static function setBlocked($id, $blocked)
+    public static function setBlocked(int $id, bool $blocked)
     {
         return Database::execute('UPDATE users SET is_blocked = ? WHERE id = ?', [$blocked ? 1 : 0, $id]);
     }
